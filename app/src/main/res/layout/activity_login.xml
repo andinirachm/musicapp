@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".view.activity.LoginActivity">
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/ic_play" />
+
+    <TextView
+        android:id="@+id/text_view_app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image_view"
+        android:layout_marginTop="40sp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="MUSIC"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        android:visibility="gone" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/btn_login_fb_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_app_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
+
+        <Button
+            android:id="@+id/btn_login_fb"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_rect_white"
+            android:drawableLeft="@drawable/facebook"
+            android:drawablePadding="10dp"
+            android:padding="10dp"
+            android:text="Facebook"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_login_google"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_rect_white"
+            android:drawableLeft="@drawable/ic_google"
+            android:drawablePadding="10dp"
+            android:padding="10dp"
+            android:text="Google Account"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+
+</RelativeLayout>
