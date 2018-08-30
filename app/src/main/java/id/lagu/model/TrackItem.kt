@@ -10,7 +10,8 @@ open class TrackItem(
         open var name: String = "",
         open var thumb: String = "",
         open var album: String = "",
-        open var artist: String = ""
+        open var artist: String = "",
+        open var wishlisted: Boolean = true
 ) : RealmObject() {
 
     fun copy(
@@ -18,5 +19,6 @@ open class TrackItem(
             name: String = this.name,
             thumb: String = this.thumb,
             album: String = this.album,
-            artist: String = this.artist) = TrackItem(id, name, thumb, album, artist)
+            artist: String = this.artist,
+            wishlisted: Boolean = this.wishlisted) = TrackItem(id, name, thumb, album, artist, wishlisted)
 }
