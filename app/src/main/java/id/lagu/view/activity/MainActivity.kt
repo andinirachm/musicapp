@@ -23,6 +23,7 @@ import id.lagu.view.fragment.CreateFragment
 import id.lagu.view.fragment.FindFragment
 import id.lagu.view.fragment.WishlistFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.layout_main.*
 
 class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     private var mGoogleSignInClient: GoogleSignInClient? = null
@@ -31,7 +32,9 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.layout_main)
+
+        toolbar.title = "Find"
 
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -82,14 +85,17 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_find -> {
+                toolbar.title = "Find"
                 true
                 addFragment(FindFragment.Companion.newInstance())
             }
             R.id.action_wishlist -> {
+                toolbar.title = "Wishlist"
                 true
                 addFragment(WishlistFragment.Companion.newInstance())
             }
             R.id.action_create -> {
+                toolbar.title = "Create Event"
                 true
                 addFragment(CreateFragment.Companion.newInstance())
             }

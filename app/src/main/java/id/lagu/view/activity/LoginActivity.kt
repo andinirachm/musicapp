@@ -31,7 +31,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        FacebookSdk.sdkInitialize(this)
         setContentView(R.layout.activity_login)
 
         btn_login_fb.setOnClickListener(this)
@@ -42,7 +41,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 .build()
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-        val account = GoogleSignIn.getLastSignedInAccount(this)
 
         callbackManager = CallbackManager.Factory.create()
         btn_login_fb_1.setReadPermissions(Arrays.asList("email"))
