@@ -95,11 +95,12 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
                 addFragment(WishlistFragment.Companion.newInstance())
             }
             R.id.action_create -> {
-                toolbar.title = "Create Event"
+                toolbar.title = "Create"
                 true
                 addFragment(CreateFragment.Companion.newInstance())
             }
             R.id.action_calendar -> {
+                toolbar.title = "Calendar"
                 true
                 addFragment(CalendarFragment.Companion.newInstance())
             }
