@@ -12,7 +12,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import id.lagu.R
@@ -23,12 +25,18 @@ import id.lagu.view.fragment.WishlistFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
-    val mGoogleSignInClient: GoogleSignInClient? = null
-    var dialog: AlertDialog? = null
+    private var mGoogleSignInClient: GoogleSignInClient? = null
+    private var dialog: AlertDialog? = null
+    private var gso: GoogleSignInOptions? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+        mGoogleSignInClient = GoogleSignIn.getClient(this, this.gso!!)
 
         bottom_navigation.selectedItemId = R.id.action_find
         addFragment(FindFragment.Companion.newInstance())
