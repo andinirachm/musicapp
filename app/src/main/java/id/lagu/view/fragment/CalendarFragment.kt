@@ -9,15 +9,18 @@ import android.view.ViewGroup
 import android.widget.CalendarView
 import id.lagu.R
 import id.lagu.view.activity.DetailDateActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class CalendarFragment : Fragment() {
-    var calendarView: CalendarView? = null
+    private var calendarView: CalendarView? = null
+    private val myFormatDate = "dd/MM/yy"
 
     companion object {
         fun newInstance(): CalendarFragment {
-            var fragment = CalendarFragment()
-            var args = Bundle()
+            val fragment = CalendarFragment()
+            val args = Bundle()
             fragment.arguments = args
             return fragment
         }
@@ -26,14 +29,23 @@ class CalendarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        calendarView?.setOnDateChangeListener({ view, year, month, dayOfMonth ->
-            startActivity(Intent(activity, DetailDateActivity::class.java))
+        calendarView?.setOnDateChangeListener({ _, year, month, dayOfMonth ->
+
+            val myCalendar = Calendar.getInstance()
+            myCalendar.set(Calendar.YEAR, year)
+            myCalendar.set(Calendar.MONTH, month)
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            val sdf = SimpleDateFormat(myFormatDate, Locale.getDefault())
+            val intent = Intent(activity, DetailDateActivity::class.java)
+            intent.putExtra("date", sdf.format(myCalendar.time))
+            startActivity(intent)
         })
 
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var rootView = inflater!!.inflate(R.layout.fragment_calendar, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_calendar, container, false)
         calendarView = rootView.findViewById(R.id.calendar)
         return rootView
     }
