@@ -1,22 +1,19 @@
 package id.lagu.view.activity
 
-import android.content.DialogInterface
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import id.lagu.R
 import id.lagu.view.fragment.CalendarFragment
 import id.lagu.view.fragment.CreateFragment
@@ -44,6 +41,30 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         bottom_navigation.selectedItemId = R.id.action_find
         addFragment(FindFragment.Companion.newInstance())
         bottom_navigation.setOnNavigationItemSelectedListener(this)
+
+        val extras = intent.extras
+
+        if (extras != null) {
+            if (extras.getString("name") != null) {
+                val name = extras.getString("name")
+                val id = extras.getString("id")
+                val desc = extras.getString("desc")
+                val date = extras.getString("date")
+                val time = extras.getString("time")
+
+                bottom_navigation.selectedItemId = R.id.action_calendar
+                addFragment(CalendarFragment.Companion.newInstance())
+                Log.e("INTENT", name + " - " + id)
+                val intent = Intent(this, DetailEventActivity::class.java)
+                intent.putExtra("name", name)
+                intent.putExtra("desc", desc)
+                intent.putExtra("date", date)
+                intent.putExtra("time", time)
+                startActivity(intent)
+            } else {
+                Log.e("INTENT", "KOSONG")
+            }
+        }
     }
 
     private fun addFragment(fragment: Fragment) {
@@ -86,32 +107,26 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
         when (item.itemId) {
             R.id.action_find -> {
                 toolbar.title = "Find"
-                true
                 addFragment(FindFragment.Companion.newInstance())
             }
             R.id.action_wishlist -> {
                 toolbar.title = "Wishlist"
-                true
                 addFragment(WishlistFragment.Companion.newInstance())
             }
             R.id.action_create -> {
                 toolbar.title = "Create Event"
-                true
                 addFragment(CreateFragment.Companion.newInstance())
             }
             R.id.action_calendar -> {
                 toolbar.title = "Event"
-                true
                 addFragment(CalendarFragment.Companion.newInstance())
             }
             R.id.action_logout -> {
                 showDialogLogout()
                 dialog?.show()
-                true
             }
             else -> false
         }
         return true
     }
-
 }

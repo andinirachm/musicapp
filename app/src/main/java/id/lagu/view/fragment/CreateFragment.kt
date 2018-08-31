@@ -1,7 +1,11 @@
 package id.lagu.view.fragment
 
+import android.app.AlarmManager
 import android.app.DatePickerDialog
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Context.ALARM_SERVICE
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +17,10 @@ import id.lagu.R
 import id.lagu.interfaces.CreateEventRealmView
 import id.lagu.model.Event
 import id.lagu.presenter.CreateEventPresenter
+import id.lagu.service.AlarmReceiver
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class CreateFragment : BaseFragment(), CreateEventRealmView {
     private var btnPickTime: Button? = null
@@ -31,6 +37,7 @@ class CreateFragment : BaseFragment(), CreateEventRealmView {
     private var daySelected = 0
     private var monthSelected = 0
     private var yearSelected = 0
+    private var datetime = ""
 
     companion object {
         fun newInstance(): CreateFragment {
@@ -103,8 +110,10 @@ class CreateFragment : BaseFragment(), CreateEventRealmView {
             val fullDateTimeStr = "$daySelected/$month/$yearSelected $hour:$minute"
             val date = fullSdf.parse(fullDateTimeStr)
             val time = sdf.parse("$hour:$minute")
+
             if (date.after(mcurrentTime.time)) {
                 editTextTime?.setText(sdf.format(time))
+                datetime = sdf.format(time)
             } else
                 Toast.makeText(activity, "Date time selected couldn't less than current, Please select right time.", Toast.LENGTH_LONG).show()
         }, mHour, mMinute, true)
@@ -150,10 +159,30 @@ class CreateFragment : BaseFragment(), CreateEventRealmView {
     }
 
     override fun onSuccessCreateEvent(event: Event, b: Boolean) {
+        val myIntent = Intent(activity, AlarmReceiver::class.java)
+        myIntent.putExtra("name", event.name)
+        myIntent.putExtra("id", event.id.toString())
+        myIntent.putExtra("time", event.time)
+        myIntent.putExtra("date", event.date)
+        myIntent.putExtra("desc", event.desc)
+        val pendingIntent = PendingIntent.getBroadcast(activity, 0, myIntent, 0)
+
+        val datime = datetime.split(":")
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_MONTH, daySelected)
+        calendar.set(Calendar.MONTH, monthSelected)
+        calendar.set(Calendar.YEAR, yearSelected)
+        calendar.set(Calendar.HOUR_OF_DAY, datime[0].toInt())
+        calendar.set(Calendar.MINUTE, datime[1].toInt())
+
+        val alarmManager = activity?.getSystemService(ALARM_SERVICE) as AlarmManager
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+
         editTextTitle?.setText("")
         editTextDesc?.setText("")
         editTextDate?.setText("")
         editTextTime?.setText("")
         Toast.makeText(activity, "Success create " + event.name, Toast.LENGTH_SHORT).show()
+
     }
 }
