@@ -108,7 +108,7 @@ class FindFragment : BaseFragment(), FindView, SearchView.OnQueryTextListener, S
         arrTrack.clear()
         var arr = response.message?.body?.trackList
         for (item in arr!!) {
-            var wishlisted = presenter?.getWishlist(realm!!, item?.track?.trackId.toString())
+            var wishlisted = presenter?.checkWishlist(realm!!, item?.track?.trackId.toString())
             item.track?.wishlisted = wishlisted
 
         }

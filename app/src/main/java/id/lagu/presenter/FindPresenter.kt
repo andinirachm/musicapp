@@ -1,6 +1,5 @@
 package id.lagu.presenter
 
-import android.util.Log
 import id.lagu.BuildConfig
 import id.lagu.interfaces.FindView
 import id.lagu.interfaces.RealmInterfaces
@@ -11,8 +10,6 @@ import io.realm.Realm
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import io.realm.RealmResults
-
 
 class FindPresenter : BasePresenter<FindView>, RealmInterfaces {
     private var view: FindView? = null
@@ -85,8 +82,13 @@ class FindPresenter : BasePresenter<FindView>, RealmInterfaces {
         return list
     }
 
-    override fun getWishlist(realm: Realm, id: String): Boolean {
+    override fun checkWishlist(realm: Realm, id: String): Boolean {
         val trackItem = realm.where(TrackItem::class.java).equalTo("id", id).findFirst()
         return trackItem != null
+    }
+
+    override fun getWishlist(realm: Realm, id: String): TrackItem {
+        val trackItem = realm.where(TrackItem::class.java).equalTo("id", id).findFirst()
+        return trackItem!!
     }
 }
